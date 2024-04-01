@@ -40,7 +40,7 @@ class Game {
             }
             
             do Screen.clearScreen(); // Если проиграли
-            do drawer.drawEnd();
+            do drawer.drawEnd(score.getScore());
             do awaitEnter();
 
             do snake.rebuild();

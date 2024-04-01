@@ -1,6 +1,6 @@
 class Main {
     // Основная функция
-    function void main () {
+    function void main() {
         var Game game;
         let game = Game.new();
         do game.run();

@@ -86,7 +86,9 @@ label WHILE_END1
 call Screen.clearScreen 0
 pop temp 0
 push this 5
-call Drawer.drawEnd 1
+push this 4
+call Score.getScore 1
+call Drawer.drawEnd 2
 pop temp 0
 push pointer 0
 call Game.awaitEnter 1
