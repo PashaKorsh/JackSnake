@@ -75,9 +75,10 @@ class Game {
 
     // Генерация нового места для еды
     method void replaceFood() {
-        //let food = random.next(512);
+        let food = random.next(512);
         while (map[food] = 1) {
             let food = food + 1;
+            if (food = 512) { let food = 0; }
         }
         return;
     }
