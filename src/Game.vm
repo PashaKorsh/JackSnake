@@ -1,0 +1,282 @@
+function Game.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+call Snake.new 0
+pop this 0
+push constant 512
+call Array.new 1
+pop this 1
+push constant 264
+push this 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 52
+pop this 2
+push constant 52
+call Random.new 1
+pop this 3
+call Score.new 0
+pop this 4
+call Drawer.new 0
+pop this 5
+push pointer 0
+return
+function Game.run 2
+push argument 0
+pop pointer 0
+push this 5
+call Drawer.drawMain 1
+pop temp 0
+push pointer 0
+call Game.awaitEnter 1
+pop temp 0
+label WHILE_EXP0
+push constant 0
+not
+not
+if-goto WHILE_END0
+call Screen.clearScreen 0
+pop temp 0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+not
+not
+if-goto WHILE_END1
+push pointer 0
+call Game.readKey 1
+pop temp 0
+push this 0
+push this 1
+call Snake.move 2
+pop local 0
+push this 0
+push this 2
+call Snake.eat 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 4
+call Score.add 1
+pop temp 0
+push pointer 0
+call Game.replaceFood 1
+pop temp 0
+label IF_FALSE0
+push this 0
+call Snake.draw 1
+pop temp 0
+push pointer 0
+call Game.drawFood 1
+pop temp 0
+push this 4
+call Score.drawScore 1
+pop temp 0
+push constant 100
+call Sys.wait 1
+pop temp 0
+goto WHILE_EXP1
+label WHILE_END1
+call Screen.clearScreen 0
+pop temp 0
+push this 5
+call Drawer.drawEnd 1
+pop temp 0
+push pointer 0
+call Game.awaitEnter 1
+pop temp 0
+push this 0
+call Snake.rebuild 1
+pop temp 0
+push this 4
+call Score.rebuild 1
+pop temp 0
+push constant 0
+pop local 1
+label WHILE_EXP2
+push local 1
+push constant 512
+lt
+not
+if-goto WHILE_END2
+push local 1
+push this 1
+add
+push constant 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP2
+label WHILE_END2
+push constant 264
+push this 1
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Game.readKey 1
+push argument 0
+pop pointer 0
+call Keyboard.keyPressed 0
+pop local 0
+push local 0
+push constant 130
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push constant 1
+neg
+push constant 0
+call Snake.changeDir 3
+pop temp 0
+label IF_FALSE0
+push local 0
+push constant 131
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push this 0
+push constant 0
+push constant 1
+neg
+call Snake.changeDir 3
+pop temp 0
+label IF_FALSE1
+push local 0
+push constant 132
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push this 0
+push constant 1
+push constant 0
+call Snake.changeDir 3
+pop temp 0
+label IF_FALSE2
+push local 0
+push constant 133
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 0
+push constant 0
+push constant 1
+call Snake.changeDir 3
+pop temp 0
+label IF_FALSE3
+push local 0
+push constant 140
+eq
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+call Screen.clearScreen 0
+pop temp 0
+push this 5
+call Drawer.drawPause 1
+pop temp 0
+push pointer 0
+call Game.awaitEnter 1
+pop temp 0
+call Screen.clearScreen 0
+pop temp 0
+push this 0
+call Snake.drawFull 1
+pop temp 0
+label IF_FALSE4
+push constant 0
+return
+function Game.replaceFood 0
+push argument 0
+pop pointer 0
+label WHILE_EXP0
+push this 2
+push this 1
+add
+pop pointer 1
+push that 0
+push constant 1
+eq
+not
+if-goto WHILE_END0
+push this 2
+push constant 1
+add
+pop this 2
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function Game.drawFood 2
+push argument 0
+pop pointer 0
+push this 2
+push constant 16
+call Math.divide 2
+pop local 0
+push this 2
+push local 0
+push constant 16
+call Math.multiply 2
+sub
+pop local 1
+push local 0
+push constant 16
+call Math.multiply 2
+push constant 2
+add
+push local 1
+push constant 16
+call Math.multiply 2
+push constant 2
+add
+push local 0
+push constant 16
+call Math.multiply 2
+push constant 11
+add
+push local 1
+push constant 16
+call Math.multiply 2
+push constant 11
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Game.awaitEnter 0
+push argument 0
+pop pointer 0
+label WHILE_EXP0
+call Keyboard.keyPressed 0
+push constant 128
+eq
+not
+not
+if-goto WHILE_END0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return

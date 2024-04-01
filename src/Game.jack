@@ -1,0 +1,99 @@
+class Game {
+    field Snake snake;
+    field Array map;
+    field int food;
+    field Random random;
+    field Score score;
+    field Drawer drawer;
+
+    // Класс для работы с игрой. Содержит змейку, поле, генерирует еду, счёт, рисует картинки
+    constructor Game new() {
+        let snake = Snake.new();
+        let map = Array.new(512);
+        let map[264] = 1;
+        let food = 52;
+        let random = Random.new(52);
+        let score = Score.new();
+        let drawer = Drawer.new();
+
+        return this;
+    }
+
+    // Основной поток игры
+    method void run() {
+        var boolean isGameOver;
+        var int i;
+        do drawer.drawMain();
+        do awaitEnter();
+
+        while (true) {
+            do Screen.clearScreen();
+            let isGameOver = false;
+            while (~isGameOver) {
+                do readKey();
+                let isGameOver = snake.move(map);
+                if (snake.eat(food)) { do score.add(); do replaceFood(); }
+                do snake.draw();
+                do drawFood();
+                do score.drawScore();
+                do Sys.wait(100);
+            }
+            
+            do Screen.clearScreen(); // Если проиграли
+            do drawer.drawEnd();
+            do awaitEnter();
+
+            do snake.rebuild();
+            do score.rebuild();
+            let i = 0;
+            while (i < 512) {
+                let map[i] = 0;
+                let i = i + 1;
+            }
+            let map[264] = 1;
+        }
+        return;
+    }
+
+    // Считывание клавиш
+    method void readKey() {
+        var int key;
+        let key = Keyboard.keyPressed();
+        if (key = 130) { do snake.changeDir(-1, 0); }
+        if (key = 131) { do snake.changeDir(0, -1); }
+        if (key = 132) { do snake.changeDir(1, 0); }
+        if (key = 133) { do snake.changeDir(0, 1); }
+        if (key = 140) {
+            do Screen.clearScreen(); // Пауза
+            do drawer.drawPause();
+            do awaitEnter();
+            do Screen.clearScreen();
+            do snake.drawFull();
+        }
+        return;
+    }
+
+    // Генерация нового места для еды
+    method void replaceFood() {
+        //let food = random.next(512);
+        while (map[food] = 1) {
+            let food = food + 1;
+        }
+        return;
+    }
+
+    // Отрисовка еды
+    method void drawFood() {
+        var int fx, fy;
+        let fx = food / 16;
+        let fy = food - (fx * 16);
+        do Screen.drawRectangle(fx * 16 + 2, fy * 16 + 2, fx * 16 + 11, fy * 16 + 11);
+        return;
+    }
+
+    // Ожидание нажатия Enter
+    method void awaitEnter() {
+        while (~(Keyboard.keyPressed() = 128)) {}
+        return;
+    }
+}

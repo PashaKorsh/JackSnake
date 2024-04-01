@@ -1,0 +1,22 @@
+class Score {
+    field int counter;
+    
+    // Класс подсчёта и вывода очков
+    constructor Score new() {
+        let counter = 1;
+        return this;
+    }
+
+    method void add() { let counter = counter + 1; return; }
+
+    method int giveScore() { return counter; }
+
+    method void drawScore() {
+        do Output.moveCursor(0,54);
+        do Output.printString("Score:");
+        do Output.printInt(counter);
+        return;
+    }
+
+    method void rebuild() { let counter = 1; return; }
+}

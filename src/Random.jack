@@ -1,0 +1,19 @@
+class Random {
+    static int a,m;
+    field int last;
+
+    // Класс для генерации псевдослучайных чисел
+    constructor Random new(int seed) {
+        let a = 16805;
+        let m = 512;
+        let last = seed;
+        return this;
+    }
+
+    method int next(int mod) {
+        var int temp;
+        let last = a * last;
+        let temp = (last - (last / mod * mod));
+        if (temp > 0) { return temp; } else { return -temp; }
+    }
+}

@@ -1,0 +1,50 @@
+class Queue {
+    field int head, tail, s;
+    field Array data;
+
+    // Класс очереди на массиве, используется для компактного и быстрого просчёта движения змейки
+    constructor Queue new(int size) {
+        let data = Array.new(size);
+        let s = size;
+        return this;
+    }
+
+    // Добавление в очередь
+    method void enqueue(int x) {
+        let data[head] = x;
+        let head = head + 1;
+        if (head = s) { let head = 0; }
+        return;
+    }
+
+    // Изъятие из очереди
+    method int dequeue() {
+        var int temp;
+        let temp = data[tail];
+        let tail = tail + 1;
+        if (tail = s) { let tail = 0; }
+        return temp;
+    }
+
+    // Последний элемент
+    method int peek() {
+        return data[tail];
+    }
+
+    // Очистка
+    method void rebuild() { let head = tail; return; }
+
+    // Длина
+    method int length() {
+        if (head - tail < 0) {
+            return s + head - tail;
+        } else {
+            return head - tail;
+        }
+    }
+
+    // Получить элемент на позиции index с хвоста
+    method int getAt(int index) {
+        return data[(index + tail) - (index + tail / s * s)];
+    }
+}
